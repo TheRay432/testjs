@@ -1,0 +1,51 @@
+<template>
+  <div>
+    <div @click="handleClick">
+      <span data-testid="text">{{ text }}</span>
+      <span data-testid="value">{{ value }}</span>
+    </div>
+     {{this.config.maxTextLength}}
+  </div>
+</template>
+
+<script>
+export default {
+  name: "formatter",
+  props: ["text", "value", "config"],
+
+  data(){
+    return {
+      showText: ''
+    }
+  },
+  created(){
+    if(!this.config.maxTextLength){
+      this.config.maxTextLength = 5;
+    }
+ 
+    this.value = this.getValue(this.value);
+    if(this.text.length > this.config.maxTextLength){
+      this.text = this.text.slice(0, this.config.maxTextLength) + "...";;
+    }
+  },
+  methods:{
+    getValue(number) {
+      if (number >= 1000000) {
+       return (number / 1000000).toFixed(1).replace(".0", "") + "M";
+      } 
+      else if (number >= 1000) {
+       return (number / 1000).toFixed(1).replace(".0", "") + "K";
+      } 
+      else {
+       return Math.round(number).toString();
+      }
+    },
+    handleClick() {
+      if(this.config.showUnFormatted){
+        
+      }
+    }
+  }
+ 
+};
+</script>
